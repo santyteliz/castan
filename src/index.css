@@ -1,0 +1,229 @@
+@import "tailwindcss";
+
+/* Identidad de Castán (tomada de la propuesta): azul marino, naranja, durazno y crema. Tipografía Poppins. */
+@theme {
+  --font-sans: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Fondos claros */
+  --color-cream: #fbf6ee;
+  --color-paper: #fffdf9;
+  --color-sand: #f1e6d8;
+
+  /* Texto */
+  --color-ink: #1f2a44;
+  --color-ink-soft: #56617b;
+
+  /* Azules de marca */
+  --color-navy: #2f4575;
+  --color-navy-deep: #1f2a44;
+  --color-navy-ink: #161e33;
+  --color-navy-soft: #8193bd;
+  --color-mist: #c3cde0;
+  --color-ice: #eaeef6;
+
+  /* Naranja y durazno */
+  --color-orange: #e8772e;
+  --color-orange-hover: #f08a45;
+  --color-orange-ink: #b9541a; /* naranja con contraste suficiente sobre fondos claros */
+  --color-peach: #f2c9a0;
+  --color-peach-soft: #fbe8d6;
+
+  --color-whatsapp: #1f9d55;
+  --color-whatsapp-deep: #17834a;
+
+  --shadow-soft: 0 1px 2px rgb(31 42 68 / 0.05), 0 8px 24px -12px rgb(31 42 68 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(31 42 68 / 0.06), 0 24px 50px -22px rgb(31 42 68 / 0.38);
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-peach);
+    color: var(--color-navy-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-[76rem] px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-[0.72rem] font-semibold tracking-[0.24em] text-orange-ink uppercase;
+  }
+
+  .eyebrow::before {
+    content: "";
+    @apply inline-block h-0.5 w-6 rounded-full bg-orange;
+  }
+
+  .btn {
+    @apply inline-flex min-h-12 items-center justify-center gap-2.5 rounded-full px-6 text-[0.93rem] font-semibold whitespace-nowrap transition duration-300 select-none;
+    transition-timing-function: var(--ease-out-soft);
+  }
+
+  .btn:active {
+    transform: scale(0.98);
+  }
+
+  /* Botón principal de marca: naranja con texto azul marino (contraste AA) */
+  .btn-brand {
+    @apply bg-orange text-navy-ink shadow-soft hover:bg-orange-hover hover:shadow-lift;
+  }
+
+  .btn-primary {
+    @apply bg-navy-deep text-paper shadow-soft hover:bg-navy hover:shadow-lift;
+  }
+
+  .btn-ghost {
+    @apply border border-ink/15 bg-paper/60 text-ink hover:border-navy/40 hover:bg-paper;
+  }
+
+  .btn-ghost-dark {
+    @apply border border-white/25 text-paper hover:border-white/60 hover:bg-white/5;
+  }
+
+  .btn-outline-brand {
+    @apply border border-orange/40 bg-orange/8 text-orange-ink hover:border-orange hover:bg-orange hover:text-navy-ink;
+  }
+
+  /* Contenido provisional: visible pero prolijo, fácil de detectar y reemplazar */
+  .placeholder {
+    @apply rounded-md border border-dashed border-orange/60 bg-peach-soft/70 px-1.5 py-0.5 font-medium text-orange-ink;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+}
+
+/* Aparición suave al hacer scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.8s var(--ease-out-soft),
+    transform 0.8s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Entrada del hero */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hero-photo {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sticker-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(8deg) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(3deg);
+  }
+}
+
+.hero-in {
+  animation: hero-in 0.9s var(--ease-out-soft) both;
+  animation-delay: var(--d, 0ms);
+}
+
+.hero-photo {
+  animation: hero-photo 1.1s var(--ease-out-soft) 0.15s both;
+}
+
+.hero-sticker {
+  transform: rotate(3deg);
+  animation: sticker-in 1s var(--ease-out-soft) 0.55s both;
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-soft {
+  animation: float-soft 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-float-soft,
+  .hero-in,
+  .hero-photo,
+  .hero-sticker {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
