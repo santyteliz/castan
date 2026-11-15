@@ -13,11 +13,8 @@ export function Gallery() {
           <SectionHeading
             id="galeria-title"
             eyebrow="Galería"
-            title={
-              <>
-                Nuestros <em className="text-orange-ink not-italic">pacientes</em> y el lugar
-              </>
-            }
+            title="Nuestros pacientes"
+            accent="y el lugar"
           />
           <div className="reveal lg:max-w-xs">
             <DemoNote>Fotos ilustrativas: se reemplazan por fotos reales de la veterinaria.</DemoNote>

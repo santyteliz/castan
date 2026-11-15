@@ -1,5 +1,6 @@
 /**
  * Contenido editable del sitio.
+ * Los textos de bienvenida, forma de trabajar, servicios y equipo son los que envió la veterinaria.
  * Todo lo que figura entre corchetes ([...]) es provisional y debe confirmarlo la veterinaria.
  */
 
@@ -26,7 +27,6 @@ export const site = {
   emergencies: '[Confirmar si ofrecen guardias o urgencias]',
 
   email: '[Completar email]',
-  instagram: '[Completar si suman redes]',
 
   /** Búsqueda en Google Maps: abre la ficha de la veterinaria cuando Google la encuentra */
   mapsQuery: 'Veterinaria Castán, Miramar, Buenos Aires',
@@ -43,109 +43,141 @@ export function whatsappUrl(message: string) {
 export const generalMessage = 'Hola Castán, quería hacer una consulta.'
 
 export function serviceMessage(service: string) {
-  return `Hola Castán, quisiera consultar por el servicio de ${service}. Mi mascota es [perro/gato] y quería consultar por [motivo].`
+  return `Hola Castán, quisiera consultar por ${service}. Mi mascota es [perro/gato] y quería consultar por [motivo].`
 }
 
-export type IconName =
-  | 'stethoscope'
-  | 'calendar'
-  | 'syringe'
-  | 'pill'
-  | 'paw'
-  | 'heart'
-  | 'users'
-  | 'info'
-  | 'chat'
+export type IconName = 'scalpel' | 'scan' | 'heartPulse' | 'activity' | 'heart' | 'users' | 'search' | 'clipboard' | 'repeat'
 
 export type Service = {
   id: string
   title: string
-  /** Nombre que se usa dentro del mensaje de WhatsApp */
+  /** Cómo se nombra el servicio dentro del mensaje de WhatsApp */
   messageName: string
-  description: string
   icon: IconName
-  image: string
-  imageAlt: string
+  items: string[]
+  /** Foto real (carpeta /img/equipo) y encuadre */
+  photo?: string
+  photoPosition?: string
+  photoAlt?: string
 }
 
-/** Servicios de ejemplo: categorías habituales, a confirmar por la veterinaria. */
+export const servicesIntro =
+  'Brindamos atención integral y especializada, combinando diagnóstico, tratamiento quirúrgico y rehabilitación para ofrecer a cada paciente la mejor alternativa de atención.'
+
 export const services: Service[] = [
   {
-    id: 'consultas',
-    title: 'Consultas veterinarias',
-    messageName: 'consultas veterinarias',
-    description:
-      'Revisión clínica y orientación para el cuidado de tu mascota, con tiempo para escucharte y responder tus dudas.',
-    icon: 'stethoscope',
-    image: 'consultas',
-    imageAlt: 'Perro shih tzu con moño rojo mirando a cámara',
+    id: 'cirugia',
+    title: 'Cirugía veterinaria',
+    messageName: 'cirugía veterinaria',
+    icon: 'scalpel',
+    items: ['Cirugía general', 'Cirugía traumatológica y ortopédica'],
+    photo: 'diego-ozan',
+    photoPosition: '50% 25%',
+    photoAlt: 'Diego Alejandro Ozan en el quirófano',
   },
   {
-    id: 'preventiva',
-    title: 'Medicina preventiva',
-    messageName: 'medicina preventiva',
-    description:
-      'Controles periódicos para acompañar cada etapa de su vida y anticiparse a los problemas de salud.',
-    icon: 'calendar',
-    image: 'preventiva',
-    imageAlt: 'Cachorro de corgi recostado sobre fondo claro',
+    id: 'imagenes',
+    title: 'Diagnóstico por imágenes',
+    messageName: 'diagnóstico por imágenes',
+    icon: 'scan',
+    items: ['Estudios de diagnóstico por imágenes', 'Ecografía general', 'Ecografía especializada'],
+    photo: 'luis-vaudana-ecografia',
+    photoPosition: '50% 40%',
+    photoAlt: 'Luis Vaudaña realizando una ecografía a un perro',
   },
   {
-    id: 'vacunacion',
-    title: 'Vacunación',
-    messageName: 'vacunación',
-    description:
-      'Planificación del calendario de vacunas según la edad, la especie y el estilo de vida de tu mascota.',
-    icon: 'syringe',
-    image: 'vacunacion',
-    imageAlt: 'Tres gatitos atigrados juntos mirando a cámara',
+    id: 'cardiologia',
+    title: 'Cardiología clínica',
+    messageName: 'cardiología clínica',
+    icon: 'heartPulse',
+    items: ['Evaluación cardiológica', 'Ecocardiografía'],
   },
   {
-    id: 'desparasitacion',
-    title: 'Desparasitación',
-    messageName: 'desparasitación',
-    description:
-      'Indicaciones claras para la desparasitación interna y externa, con la frecuencia adecuada para cada caso.',
-    icon: 'pill',
-    image: 'desparasitacion',
-    imageAlt: 'Perro beagle sonriendo con la lengua afuera',
-  },
-  {
-    id: 'perros-gatos',
-    title: 'Atención para perros y gatos',
-    messageName: 'atención para perros y gatos',
-    description:
-      'Un trato cuidadoso y respetuoso, pensado para que cada visita sea lo más tranquila posible para ellos.',
-    icon: 'paw',
-    image: 'perros-gatos',
-    imageAlt: 'Un gato y un perro descansando juntos sobre el pasto',
+    id: 'rehabilitacion',
+    title: 'Evaluación y rehabilitación',
+    messageName: 'evaluación y rehabilitación',
+    icon: 'activity',
+    items: ['Evaluación zookinésica', 'Fisiatría veterinaria', 'Rehabilitación física', 'Ozonoterapia'],
+    photo: 'gabriela-idiarte-borda',
+    photoPosition: '50% 30%',
+    photoAlt: 'Gabriela Idiarte Borda durante una sesión de rehabilitación',
   },
 ]
 
-export const trustPoints: { title: string; text: string; icon: IconName }[] = [
+/** Lista corrida que se muestra en la cinta animada debajo del hero */
+export const marquee = [
+  'Cirugía general',
+  'Traumatología y ortopedia',
+  'Ecografía',
+  'Ecocardiografía',
+  'Cardiología clínica',
+  'Evaluación zookinésica',
+  'Fisiatría veterinaria',
+  'Rehabilitación física',
+  'Ozonoterapia',
+]
+
+export const process: { title: string; text: string; icon: IconName }[] = [
   {
-    title: 'Atención personalizada',
-    text: 'Cada mascota es única. Nos tomamos el tiempo de conocerla y entender su historia.',
-    icon: 'heart',
+    title: 'Evaluación y diagnóstico',
+    text: 'Escuchamos a los tutores, evaluamos al paciente y analizamos cada caso para determinar las mejores alternativas de tratamiento.',
+    icon: 'search',
   },
   {
-    title: 'Acompañamiento en su cuidado',
-    text: 'Te acompañamos antes, durante y después de cada consulta.',
-    icon: 'users',
+    title: 'Planificación quirúrgica',
+    text: 'Cuando la cirugía es necesaria, planificamos cada procedimiento de acuerdo con las necesidades particulares del paciente.',
+    icon: 'clipboard',
   },
   {
-    title: 'Información clara',
-    text: 'Te explicamos cada indicación con palabras simples, para que sepas qué hacer en casa.',
-    icon: 'info',
+    title: 'Seguimiento y recuperación',
+    text: 'El trabajo no termina en el quirófano. Realizamos el seguimiento correspondiente y acompañamos la evolución de cada paciente.',
+    icon: 'repeat',
   },
   {
-    title: 'Comunicación directa',
-    text: 'Un canal simple para tus consultas: escribinos por WhatsApp desde cualquier parte de la web.',
-    icon: 'chat',
+    title: 'Rehabilitación veterinaria',
+    text: 'Buscamos recuperar la movilidad, favorecer la funcionalidad y mejorar la calidad de vida mediante un plan de rehabilitación individualizado.',
+    icon: 'activity',
   },
 ]
 
-/** Fotos ilustrativas: reemplazar por fotos reales del lugar, el equipo y sus pacientes. */
+export type TeamMember = {
+  name: string
+  role: string
+  /** Matrícula provincial */
+  license: string
+  photo: string
+  photoAlt: string
+  /** true cuando la especialidad todavía no fue confirmada por la veterinaria */
+  roleToConfirm?: boolean
+}
+
+export const team: TeamMember[] = [
+  {
+    name: 'Diego Alejandro Ozan',
+    role: 'Cirugía veterinaria',
+    roleToConfirm: true,
+    license: 'M.P. 12912',
+    photo: 'diego-ozan',
+    photoAlt: 'Diego Alejandro Ozan en el quirófano, con ropa quirúrgica, haciendo un gesto de pulgar arriba',
+  },
+  {
+    name: 'Gabriela Idiarte Borda',
+    role: 'Rehabilitación veterinaria',
+    roleToConfirm: true,
+    license: 'M.P. 10879',
+    photo: 'gabriela-idiarte-borda',
+    photoAlt: 'Gabriela Idiarte Borda realizando una sesión de rehabilitación a un perro',
+  },
+  {
+    name: 'Luis Vaudaña',
+    role: 'Especialista en Ecografías y Cardiología',
+    license: 'M.P. 12685',
+    photo: 'luis-vaudana',
+    photoAlt: 'Luis Vaudaña realizando una ecografía a un perro',
+  },
+]
+
+/** Fotos ilustrativas: reemplazar por fotos reales del lugar y sus pacientes. */
 export const gallery = [
   { image: 'galeria-1', alt: 'Perro corriendo feliz en la orilla del mar' },
   { image: 'galeria-3', alt: 'Gato levantando la pata sobre fondo verde agua' },
@@ -153,13 +185,6 @@ export const gallery = [
   { image: 'galeria-4', alt: 'Perro de pelo blanco y marrón sonriendo' },
   { image: 'galeria-6', alt: 'Golden retriever mirando a cámara con expresión tranquila' },
   { image: 'galeria-5', alt: 'Gato atigrado de ojos verdes mirando hacia arriba' },
-]
-
-/** Perfiles del equipo: reemplazar con nombres, roles, matrícula y foto reales. */
-export const team = [
-  { role: '[Especialidad o rol]' },
-  { role: '[Especialidad o rol]' },
-  { role: '[Especialidad o rol]' },
 ]
 
 /** Reseñas de muestra: se reemplazan por las reseñas reales de la ficha de Google. */
@@ -181,7 +206,8 @@ export const sampleReviews = [
 export const nav = [
   { href: '#inicio', label: 'Inicio' },
   { href: '#servicios', label: 'Servicios' },
-  { href: '#nosotros', label: 'Nosotros' },
+  { href: '#forma-de-trabajar', label: 'Cómo trabajamos' },
+  { href: '#equipo', label: 'Equipo' },
   { href: '#opiniones', label: 'Opiniones' },
   { href: '#contacto', label: 'Contacto' },
 ]

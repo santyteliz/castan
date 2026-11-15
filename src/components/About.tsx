@@ -1,119 +1,85 @@
-import { team } from '../content/site'
 import { Icon } from './Icon'
-import { DemoNote, Editable, Photo, SectionHeading, useReveal } from './ui'
+import { SectionHeading, useReveal } from './ui'
 
 const values = [
-  { icon: 'heart', label: 'Cercanía' },
-  { icon: 'leaf', label: 'Responsabilidad' },
-  { icon: 'paw', label: 'Cariño' },
+  { icon: 'search', label: 'Conocimiento' },
+  { icon: 'heart', label: 'Compromiso' },
+  { icon: 'paw', label: 'Vocación' },
 ] as const
 
 export function About() {
   const ref = useReveal<HTMLElement>()
   return (
-    <section ref={ref} id="nosotros" aria-labelledby="nosotros-title" className="bg-paper py-24 sm:py-32">
-      <div className="container-page grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
-        <div className="reveal relative lg:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-sand">
-            <Photo
-              name="tutora-gato"
-              alt="Tutora acariciando a su gato junto a una ventana luminosa"
-              sizes="(min-width: 1024px) 30rem, 92vw"
-              className="size-full object-cover object-[40%_50%]"
+    <section ref={ref} id="nosotros" aria-labelledby="nosotros-title" className="overflow-hidden bg-paper py-24 sm:py-32">
+      <div className="container-page grid items-center gap-16 lg:grid-cols-12 lg:gap-16">
+        {/* Collage con fotos reales del equipo trabajando */}
+        <div className="reveal relative order-2 lg:order-1 lg:col-span-5">
+          <div className="group relative ml-auto aspect-[4/5] w-[82%] overflow-hidden rounded-[2rem] bg-sand shadow-lift">
+            <img
+              src="/img/equipo/diego-ozan.webp"
+              alt="Diego Alejandro Ozan en el quirófano"
+              loading="lazy"
+              width={674}
+              height={842}
+              className="size-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-soft)] group-hover:scale-105"
             />
+            <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-paper/90 px-3 py-1.5 text-[0.75rem] font-semibold text-ink backdrop-blur">
+              <Icon name="scalpel" className="size-3.5 text-orange-ink" />
+              Cirugía
+            </span>
           </div>
-          <div className="absolute -right-3 -bottom-8 hidden max-w-[15rem] rounded-2xl bg-navy p-5 text-cream shadow-lift sm:block lg:-right-10">
-            <p className="text-[1.3rem] leading-snug">“Parte de tu familia, también de la nuestra.”</p>
+          <div className="group absolute -bottom-10 left-0 aspect-[16/10] w-[62%] overflow-hidden rounded-[1.5rem] border-[6px] border-paper bg-sand shadow-lift">
+            <img
+              src="/img/equipo/luis-vaudana-ecografia.webp"
+              alt="Luis Vaudaña realizando una ecografía a un perro"
+              loading="lazy"
+              width={736}
+              height={460}
+              className="size-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-soft)] group-hover:scale-105"
+            />
+            <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-paper/90 px-3 py-1.5 text-[0.75rem] font-semibold text-ink backdrop-blur">
+              <Icon name="scan" className="size-3.5 text-orange-ink" />
+              Ecografía
+            </span>
           </div>
         </div>
 
-        <div className="lg:col-span-7">
+        <div className="order-1 lg:order-2 lg:col-span-7">
           <SectionHeading
             id="nosotros-title"
-            eyebrow="Nosotros"
-            title={
-              <>
-                Una atención <em className="text-orange-ink not-italic">cercana</em>, como la que ellos merecen
-              </>
-            }
+            eyebrow="Bienvenidos"
+            title="Cirugía y rehabilitación"
+            accent="veterinaria"
           />
           <div className="reveal mt-6 space-y-5 text-[1.05rem] leading-relaxed text-ink-soft">
             <p>
-              Cada mascota merece una atención cercana, responsable y llena de cariño. En Castán trabajamos para
-              acompañarte en el cuidado de quienes forman parte de tu familia.
+              Creemos que cada animal merece una atención integral, dedicada y de calidad. Nuestro objetivo es brindar
+              soluciones profesionales para cuidar la salud de nuestros pacientes, acompañándolos en cada etapa de su
+              recuperación.
             </p>
             <p>
-              <Editable>[Completar con la historia de la veterinaria: cómo nació, quiénes la llevan adelante y qué la hace distinta.]</Editable>
+              Ofrecemos servicios de cirugía veterinaria y rehabilitación, combinando conocimiento, compromiso y vocación
+              para mejorar la calidad de vida de nuestros compañeros de cuatro patas.
             </p>
           </div>
 
-          <ul className="reveal mt-9 flex flex-wrap gap-3">
-            {values.map((v) => (
+          <blockquote className="reveal relative mt-9 rounded-2xl border-l-4 border-orange bg-cream py-5 pr-6 pl-6 text-[1.1rem] leading-relaxed font-medium text-ink">
+            Porque detrás de cada paciente hay una familia que espera verlo bien, caminar, jugar y disfrutar nuevamente.
+          </blockquote>
+
+          <ul className="reveal mt-8 flex flex-wrap gap-3">
+            {values.map((v, i) => (
               <li
                 key={v.label}
-                className="inline-flex items-center gap-2.5 rounded-full bg-ice px-4 py-2.5 text-[0.92rem] font-semibold text-navy-deep"
+                className="group inline-flex cursor-default items-center gap-2.5 rounded-full border border-navy/10 bg-ice px-4 py-2.5 text-[0.92rem] font-semibold text-navy-deep transition duration-300 hover:-translate-y-0.5 hover:border-orange/40 hover:bg-peach-soft"
+                style={{ transitionDelay: `${i * 30}ms` }}
               >
-                <Icon name={v.icon} className="size-4 text-navy" />
+                <Icon name={v.icon} className="icon-pop size-4 text-orange-ink" />
                 {v.label}
               </li>
             ))}
           </ul>
         </div>
-      </div>
-
-      {/* Equipo */}
-      <div id="equipo" className="container-page mt-28 sm:mt-36">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <SectionHeading
-            eyebrow="El equipo"
-            title={
-              <>
-                Las personas que <em className="text-orange-ink not-italic">cuidan</em> de tu mascota
-              </>
-            }
-            text="Conocé a quienes te van a atender: su formación, su experiencia y su forma de trabajar."
-          />
-          <div className="reveal lg:max-w-xs">
-            <DemoNote>Perfiles provisionales: se completan con fotos y datos reales del equipo.</DemoNote>
-          </div>
-        </div>
-
-        <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {team.map((member, i) => (
-            <li
-              key={i}
-              className="reveal group overflow-hidden rounded-[1.75rem] bg-cream ring-1 ring-ink/5"
-              style={{ ['--reveal-delay' as string]: `${i * 90}ms` }}
-            >
-              <div className="relative grid aspect-[4/3.6] place-items-center overflow-hidden bg-gradient-to-br from-mist via-ice to-cream">
-                <div aria-hidden="true" className="absolute -bottom-16 left-1/2 size-64 -translate-x-1/2 rounded-full bg-paper/50" />
-                <div className="relative flex flex-col items-center gap-3 text-navy/70">
-                  <span className="grid size-20 place-items-center rounded-full border border-navy/15 bg-paper/70">
-                    <Icon name="user" className="size-9" />
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 text-[0.8rem] font-semibold tracking-wide uppercase">
-                    <Icon name="camera" className="size-4" />
-                    Foto del profesional
-                  </span>
-                </div>
-              </div>
-              <div className="p-6 sm:p-7">
-                <h3 className="text-[1.35rem] font-semibold text-ink">
-                  <Editable>[Nombre y apellido]</Editable>
-                </h3>
-                <p className="mt-2 text-[0.92rem] font-semibold text-navy">
-                  <Editable>{member.role}</Editable>
-                </p>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft">
-                  <Editable>[Breve presentación: formación, experiencia y forma de trabajar.]</Editable>
-                </p>
-                <p className="mt-4 border-t border-ink/8 pt-4 text-[0.85rem] text-ink-soft">
-                  Matrícula: <Editable>[Completar]</Editable>
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { generalMessage, nav, whatsappUrl } from '../content/site'
 import { Icon, WhatsAppIcon } from './Icon'
 import { Logo } from './ui'
@@ -6,12 +6,41 @@ import { Logo } from './ui'
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const [active, setActive] = useState('#inicio')
+  const progress = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12)
-    onScroll()
+    let frame = 0
+    const update = () => {
+      setScrolled(window.scrollY > 12)
+      const max = document.documentElement.scrollHeight - window.innerHeight
+      progress.current?.style.setProperty('--progress', String(max > 0 ? window.scrollY / max : 0))
+    }
+    const onScroll = () => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(update)
+    }
+    update()
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(frame)
+    }
+  }, [])
+
+  // Resalta en el menú la sección que se está viendo
+  useEffect(() => {
+    const sections = nav
+      .map((item) => document.querySelector<HTMLElement>(item.href))
+      .filter((el): el is HTMLElement => el !== null)
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(`#${e.target.id}`)
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    )
+    sections.forEach((s) => io.observe(s))
+    return () => io.disconnect()
   }, [])
 
   useEffect(() => {
@@ -42,14 +71,19 @@ export function Header() {
           </a>
 
           <nav aria-label="Principal" className="hidden lg:block">
-            <ul className="flex items-center gap-1">
+            <ul className="flex items-center gap-0.5">
               {nav.map((item) => (
                 <li key={item.href}>
                   <a
                     href={item.href}
-                    className="relative rounded-full px-4 py-2 text-[0.9rem] font-medium text-cream/75 transition-colors hover:bg-white/8 hover:text-paper"
+                    aria-current={active === item.href ? 'true' : undefined}
+                    className="group/nav relative block rounded-full px-3 py-2 text-[0.86rem] font-medium text-cream/70 transition-colors hover:text-paper aria-[current]:text-paper xl:px-4"
                   >
                     {item.label}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-3 bottom-0.5 h-0.5 origin-left scale-x-0 rounded-full bg-orange transition-transform duration-500 ease-[var(--ease-out-soft)] group-hover/nav:scale-x-100 group-aria-[current]/nav:scale-x-100 xl:inset-x-4"
+                    />
                   </a>
                 </li>
               ))}
@@ -64,7 +98,8 @@ export function Header() {
               className="btn btn-brand hidden min-h-11 px-5 text-[0.88rem] sm:inline-flex"
             >
               <WhatsAppIcon className="size-[1.05rem]" />
-              Consultar por WhatsApp
+              <span className="lg:hidden xl:inline">Consultar por WhatsApp</span>
+              <span className="hidden lg:inline xl:hidden">WhatsApp</span>
             </a>
             <button
               type="button"
@@ -78,6 +113,9 @@ export function Header() {
             </button>
           </div>
         </div>
+        {/* Progreso de lectura */}
+        <span ref={progress} aria-hidden="true" className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 bg-orange" />
+
       </header>
 
       {/* Menú móvil: fuera del header, porque su backdrop-filter rompería el position: fixed */}

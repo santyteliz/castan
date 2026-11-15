@@ -1,6 +1,64 @@
 import type { SVGProps } from 'react'
 
 const paths = {
+  scalpel: (
+    <>
+      <path d="M3 21l6.5-6.5" />
+      <path d="M9.5 14.5 20 4c1.2 4.2-2.3 9.8-8 12.6Z" />
+    </>
+  ),
+  scan: (
+    <>
+      <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+      <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+      <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+      <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+      <circle cx="12" cy="12" r="3.5" />
+    </>
+  ),
+  heartPulse: (
+    <>
+      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+      <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27" />
+    </>
+  ),
+  activity: (
+    <path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2" />
+  ),
+  search: (
+    <>
+      <circle cx="11" cy="11" r="7.5" />
+      <path d="m21 21-4.3-4.3" />
+    </>
+  ),
+  clipboard: (
+    <>
+      <rect width="8" height="4" x="8" y="2" rx="1" />
+      <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+      <path d="M12 11h4" />
+      <path d="M12 16h4" />
+      <path d="M8 11h.01" />
+      <path d="M8 16h.01" />
+    </>
+  ),
+  repeat: (
+    <>
+      <path d="m17 2 4 4-4 4" />
+      <path d="M3 11v-1a4 4 0 0 1 4-4h14" />
+      <path d="m7 22-4-4 4-4" />
+      <path d="M21 13v1a4 4 0 0 1-4 4H3" />
+    </>
+  ),
+  check: <path d="M20 6 9 17l-5-5" />,
+  badge: (
+    <>
+      <rect width="18" height="14" x="3" y="5" rx="2" />
+      <circle cx="9" cy="11" r="2" />
+      <path d="M14 10h4" />
+      <path d="M14 14h3" />
+      <path d="M6 16c.5-1 1.6-1.5 3-1.5s2.5.5 3 1.5" />
+    </>
+  ),
   stethoscope: (
     <>
       <path d="M11 2v2" />

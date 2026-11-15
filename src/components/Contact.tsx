@@ -10,11 +10,8 @@ export function Contact() {
         <SectionHeading
           id="contacto-title"
           eyebrow="Ubicación y horarios"
-          title={
-            <>
-              Te esperamos en <em className="text-orange-ink not-italic">{site.city}</em>
-            </>
-          }
+          title="Te esperamos en"
+          accent={site.city}
           text="Consultá los horarios de atención y cómo llegar. Ante cualquier duda, escribinos por WhatsApp."
         />
 

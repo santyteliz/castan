@@ -21,11 +21,11 @@ export function FinalCta() {
 
         <div className="container-page py-20 sm:py-28 lg:py-32">
           <div className="reveal max-w-2xl">
-            <p className="eyebrow text-peach">Estamos para vos</p>
-            <h2 id="cta-title" className="mt-5 text-[2.3rem] leading-[1.06] font-bold text-paper sm:text-[3.5rem]">
-              Estamos para acompañarte en el cuidado de tu <em className="text-orange not-italic">mascota</em>.
+            <p className="eyebrow text-peach">Cuidar, recuperar y mejorar</p>
+            <h2 id="cta-title" className="mt-5 text-[2.3rem] leading-[1.08] font-bold text-paper sm:text-[3.1rem]">
+              Porque detrás de cada paciente hay una familia que espera <span className="text-orange">verlo bien.</span>
             </h2>
-            <p className="mt-6 text-lg text-cream/80">Escribinos y contanos cómo podemos ayudarte.</p>
+            <p className="mt-6 text-lg text-cream/80">Caminar, jugar y disfrutar nuevamente. Escribinos y contanos cómo podemos ayudarte.</p>
             <a
               href={whatsappUrl(generalMessage)}
               target="_blank"

@@ -22,11 +22,8 @@ export function Reviews() {
             <SectionHeading
               id="opiniones-title"
               eyebrow="Opiniones"
-              title={
-                <>
-                  Lo que dicen quienes ya <em className="text-orange-ink not-italic">nos conocen</em>
-                </>
-              }
+              title="Lo que dicen quienes ya"
+              accent="nos conocen"
               text="Las reseñas que los clientes dejaron en Google, a la vista de todos."
             />
           </div>

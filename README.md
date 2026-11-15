@@ -18,8 +18,8 @@ Todo el contenido editable está en `src/content/site.ts`:
 
 - `whatsappNumber`: número de WhatsApp en formato internacional, solo dígitos. Número de la veterinaria: +54 9 2291 41-1543.
 - `address`, `hours`, `emergencies`, `email`: dirección, horarios y datos de contacto.
-- `services`: servicios, descripciones y foto de cada uno.
-- `team`: perfiles del equipo.
+- `team`: equipo (nombre, especialidad, matrícula y foto en `public/img/equipo`). Falta confirmar la especialidad de Diego y Gabriela (`roleToConfirm`).
+- `services`, `process`: servicios y forma de trabajar, con los textos que envió la veterinaria.
 - `sampleReviews`: reseñas de muestra, para reemplazar por las reseñas reales de Google.
 - `DEMO_MODE`: con `false` se ocultan las notas de contenido provisional.
 
