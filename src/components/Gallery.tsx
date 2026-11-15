@@ -7,7 +7,7 @@ const spans = ['row-span-2', '', '', 'row-span-2', '', '']
 export function Gallery() {
   const ref = useReveal<HTMLElement>()
   return (
-    <section ref={ref} aria-labelledby="galeria-title" className="py-24 sm:py-32">
+    <section ref={ref} aria-labelledby="galeria-title" className="pt-12 pb-24 sm:pt-16 sm:pb-32">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading

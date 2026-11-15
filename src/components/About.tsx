@@ -10,7 +10,7 @@ const values = [
 export function About() {
   const ref = useReveal<HTMLElement>()
   return (
-    <section ref={ref} id="nosotros" aria-labelledby="nosotros-title" className="overflow-hidden bg-paper py-24 sm:py-32">
+    <section ref={ref} id="nosotros" aria-labelledby="nosotros-title" className="overflow-hidden bg-paper pt-16 pb-24 sm:pt-24 sm:pb-32">
       <div className="container-page grid items-center gap-16 lg:grid-cols-12 lg:gap-16">
         {/* Collage con fotos reales del equipo trabajando */}
         <div className="reveal relative order-2 lg:order-1 lg:col-span-5">

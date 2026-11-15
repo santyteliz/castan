@@ -226,7 +226,7 @@ function QuickMessage() {
 export function Services() {
   const ref = useReveal<HTMLElement>()
   return (
-    <section ref={ref} id="servicios" aria-labelledby="servicios-title" className="py-24 sm:py-32">
+    <section ref={ref} id="servicios" aria-labelledby="servicios-title" className="pt-24 pb-14 sm:pt-32 sm:pb-20">
       <div className="container-page">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading

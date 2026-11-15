@@ -44,7 +44,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
 export function Team() {
   const ref = useReveal<HTMLElement>()
   return (
-    <section ref={ref} id="equipo" aria-labelledby="equipo-title" className="py-24 sm:py-32">
+    <section ref={ref} id="equipo" aria-labelledby="equipo-title" className="pt-24 pb-12 sm:pt-32 sm:pb-16">
       <div className="container-page">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
