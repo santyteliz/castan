@@ -342,6 +342,84 @@
   }
 }
 
+/* Visor ampliado */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes zoom-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+.caption-in {
+  animation: hero-in 0.6s var(--ease-out-soft);
+}
+
+.lightbox-in {
+  animation: fade-in 0.3s var(--ease-out-soft);
+}
+
+.lightbox-img {
+  animation: zoom-in 0.5s var(--ease-out-soft);
+}
+
+/* Radiografías: línea de escaneo que recorre la placa al pasar el mouse */
+.xray-scan {
+  position: absolute;
+  inset-inline: 0;
+  top: -30%;
+  height: 30%;
+  background: linear-gradient(to bottom, transparent, rgb(242 201 160 / 0.35) 80%, rgb(255 255 255 / 0.7));
+  mix-blend-mode: screen;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.group:hover .xray-scan,
+.group:focus-visible .xray-scan {
+  opacity: 1;
+  animation: xray-scan 1.6s var(--ease-out-soft) infinite;
+}
+
+@keyframes xray-scan {
+  to {
+    top: 100%;
+  }
+}
+
+/* Panel de "Cómo trabajamos": transición entre fotos */
+.process-media {
+  opacity: 0;
+  transform: scale(1.06);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s var(--ease-out-soft),
+    transform 1.2s var(--ease-out-soft),
+    filter 0.8s var(--ease-out-soft);
+}
+
+.process-media.is-current {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* Revelado de fotos con cortina */
+.reveal .curtain {
+  clip-path: inset(0 0 100% 0 round 1.5rem);
+  transition: clip-path 1.1s var(--ease-out-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible .curtain {
+  clip-path: inset(0 0 0 0 round 1.5rem);
+}
+
 /* Barra de progreso de lectura */
 .scroll-progress {
   transform-origin: 0 50%;
@@ -428,6 +506,20 @@
   .ecg path {
     animation: none;
     stroke-dashoffset: 0;
+  }
+
+  .group:hover .xray-scan {
+    animation: none;
+    opacity: 0;
+  }
+
+  .process-media {
+    transform: none;
+    filter: none;
+  }
+
+  .reveal .curtain {
+    clip-path: none;
   }
 
   *,

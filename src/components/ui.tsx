@@ -2,43 +2,6 @@ import { Fragment, useEffect, useRef, type CSSProperties, type PointerEvent, typ
 import { DEMO_MODE } from '../content/site'
 import { Icon } from './Icon'
 
-/** Anchos disponibles de cada foto en /public/img (nombre-ancho.webp) */
-const imageWidths: Record<string, [number, number]> = {
-  hero: [900, 1800],
-  cta: [900, 1800],
-  'tutora-gato': [700, 1300],
-  'galeria-1': [600, 1100],
-  'galeria-2': [600, 1100],
-  'galeria-3': [600, 1100],
-  'galeria-4': [600, 1100],
-  'galeria-5': [600, 1100],
-  'galeria-6': [600, 1100],
-}
-
-type PhotoProps = {
-  name: string
-  alt: string
-  sizes: string
-  className?: string
-  priority?: boolean
-}
-
-export function Photo({ name, alt, sizes, className, priority = false }: PhotoProps) {
-  const [small, large] = imageWidths[name] ?? [500, 900]
-  return (
-    <img
-      src={`/img/${name}-${small}.webp`}
-      srcSet={`/img/${name}-${small}.webp ${small}w, /img/${name}-${large}.webp ${large}w`}
-      sizes={sizes}
-      alt={alt}
-      className={className}
-      loading={priority ? 'eager' : 'lazy'}
-      decoding={priority ? 'sync' : 'async'}
-      fetchPriority={priority ? 'high' : 'auto'}
-    />
-  )
-}
-
 /** Marca los fragmentos entre corchetes como contenido provisional. */
 export function Editable({ children }: { children: string }) {
   const parts = children.split(/(\[[^\]]+\])/g)
@@ -209,6 +172,148 @@ export function SectionHeading({
           {text}
         </p>
       )}
+    </div>
+  )
+}
+
+/**
+ * Video silencioso en loop que solo se reproduce cuando está en pantalla.
+ * Con "reducir movimiento" queda la imagen fija (poster).
+ */
+export function AutoVideo({ src, className, label }: { src: string; className?: string; label: string }) {
+  const ref = useRef<HTMLVideoElement>(null)
+  useEffect(() => {
+    const video = ref.current
+    if (!video || prefersReducedMotion()) return
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {})
+        else video.pause()
+      },
+      { threshold: 0.2 },
+    )
+    io.observe(video)
+    return () => io.disconnect()
+  }, [])
+  return (
+    <video
+      ref={ref}
+      className={className}
+      poster={`${src}.webp`}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      aria-label={label}
+    >
+      <source src={`${src}.mp4`} type="video/mp4" />
+    </video>
+  )
+}
+
+export type LightboxItem = { src: string; alt: string; label: string }
+
+/** Visor ampliado con flechas, teclado (← → Esc) y cierre al tocar el fondo. */
+export function Lightbox({
+  items,
+  index,
+  onChange,
+  onClose,
+}: {
+  items: LightboxItem[]
+  index: number | null
+  onChange: (i: number) => void
+  onClose: () => void
+}) {
+  const closeBtn = useRef<HTMLButtonElement>(null)
+  const open = index !== null
+
+  useEffect(() => {
+    if (!open) return
+    const previous = document.activeElement as HTMLElement | null
+    closeBtn.current?.focus()
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = ''
+      previous?.focus()
+    }
+  }, [open])
+
+  useEffect(() => {
+    if (index === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowRight') onChange((index + 1) % items.length)
+      if (e.key === 'ArrowLeft') onChange((index - 1 + items.length) % items.length)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [index, items.length, onChange, onClose])
+
+  if (index === null) return null
+  const item = items[index]
+
+  return (
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.label}
+      className="lightbox-in fixed inset-0 z-[70] flex flex-col bg-navy-ink/95 backdrop-blur-md"
+      onClick={onClose}
+    >
+      <div className="flex items-center justify-between px-5 py-4 text-cream sm:px-8">
+        <p className="text-[0.9rem] font-medium">
+          <span className="text-orange tabular-nums">
+            {index + 1}/{items.length}
+          </span>
+          <span className="ml-3">{item.label}</span>
+        </p>
+        <button
+          ref={closeBtn}
+          type="button"
+          onClick={onClose}
+          aria-label="Cerrar"
+          className="grid size-11 place-items-center rounded-full bg-white/10 transition hover:rotate-90 hover:bg-white/20"
+        >
+          <Icon name="close" className="size-5" />
+        </button>
+      </div>
+
+      <div className="relative flex min-h-0 flex-1 items-center justify-center px-4 pb-6 sm:px-20">
+        <img
+          key={item.src}
+          src={`${item.src}.webp`}
+          alt={item.alt}
+          onClick={(e) => e.stopPropagation()}
+          className="lightbox-img max-h-full max-w-full rounded-2xl object-contain shadow-lift"
+        />
+        {items.length > 1 && (
+          <>
+            <button
+              type="button"
+              aria-label="Anterior"
+              onClick={(e) => {
+                e.stopPropagation()
+                onChange((index - 1 + items.length) % items.length)
+              }}
+              className="absolute left-3 grid size-12 place-items-center rounded-full bg-white/10 text-cream transition hover:-translate-x-0.5 hover:bg-orange hover:text-navy-ink sm:left-6"
+            >
+              <Icon name="arrowRight" className="size-5 rotate-180" />
+            </button>
+            <button
+              type="button"
+              aria-label="Siguiente"
+              onClick={(e) => {
+                e.stopPropagation()
+                onChange((index + 1) % items.length)
+              }}
+              className="absolute right-3 grid size-12 place-items-center rounded-full bg-white/10 text-cream transition hover:translate-x-0.5 hover:bg-orange hover:text-navy-ink sm:right-6"
+            >
+              <Icon name="arrowRight" className="size-5" />
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }

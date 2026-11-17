@@ -9,6 +9,7 @@ import { Process } from './components/Process'
 import { Reviews } from './components/Reviews'
 import { Services } from './components/Services'
 import { Team } from './components/Team'
+import { XRays } from './components/XRays'
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
         <Services />
         <About />
         <Process />
+        <XRays />
         <Team />
         <Gallery />
         <Reviews />

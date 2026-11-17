@@ -55,7 +55,7 @@ export function Team() {
             text="Profesionales matriculados que acompañan cada etapa, desde el diagnóstico hasta la recuperación."
           />
           <div className="reveal lg:max-w-xs">
-            <DemoNote>Falta confirmar la especialidad de Diego y de Gabriela.</DemoNote>
+            <DemoNote>Falta confirmar la especialidad de Gabriela.</DemoNote>
           </div>
         </div>
 

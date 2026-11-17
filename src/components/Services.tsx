@@ -43,7 +43,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           className={`relative overflow-hidden bg-sand ${layout.wide ? 'aspect-[16/10] lg:aspect-auto lg:w-[44%] lg:shrink-0' : 'aspect-[16/9]'}`}
         >
           <img
-            src={`/img/equipo/${service.photo}.webp`}
+            src={`/img/${service.photo}.webp`}
             alt={service.photoAlt ?? ''}
             loading="lazy"
             className="absolute inset-0 size-full object-cover transition-transform duration-[1.2s] ease-[var(--ease-out-soft)] group-hover:scale-[1.06]"

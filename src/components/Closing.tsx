@@ -1,23 +1,27 @@
 import { useEffect, useState } from 'react'
 import { generalMessage, nav, site, whatsappUrl } from '../content/site'
 import { Icon, WhatsAppIcon } from './Icon'
-import { Editable, Logo, Photo, useReveal } from './ui'
+import { AutoVideo, Editable, Logo, useReveal } from './ui'
 
 export function FinalCta() {
   const ref = useReveal<HTMLElement>()
   return (
     <section ref={ref} id="cta-final" aria-labelledby="cta-title" className="px-3 pb-3 sm:px-5 sm:pb-5">
       <div className="relative isolate overflow-hidden rounded-[2rem] bg-navy-deep sm:rounded-[2.5rem]">
-        <Photo
-          name="cta"
-          alt=""
-          sizes="100vw"
-          className="absolute inset-0 -z-10 size-full object-cover object-[65%_45%] opacity-70"
+        {/* Video real: un paciente vuelve a caminar */}
+        <AutoVideo
+          src="/video/paciente-caminando"
+          label="Perro caminando al aire libre durante su recuperación"
+          className="absolute inset-0 -z-10 size-full object-cover object-[60%_50%] opacity-80"
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep via-navy-deep/80 to-navy-deep/30 md:bg-gradient-to-r md:from-navy-deep md:via-navy-deep/75 md:to-navy-deep/10"
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep via-navy-deep/80 to-navy-deep/25 md:bg-gradient-to-r md:from-navy-deep md:via-navy-deep/70 md:to-transparent"
         />
+        <p className="absolute right-5 bottom-5 hidden items-center gap-2 rounded-full bg-navy-ink/60 px-3.5 py-2 text-[0.78rem] font-medium text-cream backdrop-blur md:inline-flex">
+          <span aria-hidden="true" className="size-2 animate-pulse rounded-full bg-orange" />
+          Paciente en recuperación
+        </p>
 
         <div className="container-page py-20 sm:py-28 lg:py-32">
           <div className="reveal max-w-2xl">

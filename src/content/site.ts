@@ -55,7 +55,7 @@ export type Service = {
   messageName: string
   icon: IconName
   items: string[]
-  /** Foto real (carpeta /img/equipo) y encuadre */
+  /** Foto real (ruta dentro de /img, sin extensión) y encuadre */
   photo?: string
   photoPosition?: string
   photoAlt?: string
@@ -71,9 +71,9 @@ export const services: Service[] = [
     messageName: 'cirugía veterinaria',
     icon: 'scalpel',
     items: ['Cirugía general', 'Cirugía traumatológica y ortopédica'],
-    photo: 'diego-ozan',
-    photoPosition: '50% 25%',
-    photoAlt: 'Diego Alejandro Ozan en el quirófano',
+    photo: 'real/cirugia-equipo',
+    photoPosition: '22% 50%',
+    photoAlt: 'Dos cirujanos operando en el quirófano',
   },
   {
     id: 'imagenes',
@@ -81,7 +81,7 @@ export const services: Service[] = [
     messageName: 'diagnóstico por imágenes',
     icon: 'scan',
     items: ['Estudios de diagnóstico por imágenes', 'Ecografía general', 'Ecografía especializada'],
-    photo: 'luis-vaudana-ecografia',
+    photo: 'equipo/luis-vaudana-ecografia',
     photoPosition: '50% 40%',
     photoAlt: 'Luis Vaudaña realizando una ecografía a un perro',
   },
@@ -98,9 +98,9 @@ export const services: Service[] = [
     messageName: 'evaluación y rehabilitación',
     icon: 'activity',
     items: ['Evaluación zookinésica', 'Fisiatría veterinaria', 'Rehabilitación física', 'Ozonoterapia'],
-    photo: 'gabriela-idiarte-borda',
-    photoPosition: '50% 30%',
-    photoAlt: 'Gabriela Idiarte Borda durante una sesión de rehabilitación',
+    photo: 'real/rehabilitacion-electro',
+    photoPosition: '0% 50%',
+    photoAlt: 'Sesión de rehabilitación con equipos de electroestimulación',
   },
 ]
 
@@ -117,27 +117,66 @@ export const marquee = [
   'Ozonoterapia',
 ]
 
-export const process: { title: string; text: string; icon: IconName }[] = [
+/** Foto o video que acompaña cada paso. `src` es la ruta pública sin extensión. */
+export type Media = { type: 'image' | 'video'; src: string; alt: string; caption: string }
+
+export const process: { title: string; text: string; icon: IconName; media: Media }[] = [
   {
     title: 'Evaluación y diagnóstico',
     text: 'Escuchamos a los tutores, evaluamos al paciente y analizamos cada caso para determinar las mejores alternativas de tratamiento.',
     icon: 'search',
+    media: {
+      type: 'image',
+      src: '/img/real/paciente-consulta',
+      alt: 'Perro border collie sentado sobre la camilla del consultorio',
+      caption: 'Evaluación del paciente en consulta',
+    },
   },
   {
     title: 'Planificación quirúrgica',
     text: 'Cuando la cirugía es necesaria, planificamos cada procedimiento de acuerdo con las necesidades particulares del paciente.',
     icon: 'clipboard',
+    media: {
+      type: 'image',
+      src: '/img/real/rx-fractura',
+      alt: 'Radiografía de una fractura de hueso largo',
+      caption: 'Estudio radiográfico para planificar la cirugía',
+    },
   },
   {
     title: 'Seguimiento y recuperación',
     text: 'El trabajo no termina en el quirófano. Realizamos el seguimiento correspondiente y acompañamos la evolución de cada paciente.',
     icon: 'repeat',
+    media: {
+      type: 'image',
+      src: '/img/real/rx-placa',
+      alt: 'Radiografía de control con una placa ortopédica y un clavo',
+      caption: 'Control radiográfico después de la cirugía',
+    },
   },
   {
     title: 'Rehabilitación veterinaria',
     text: 'Buscamos recuperar la movilidad, favorecer la funcionalidad y mejorar la calidad de vida mediante un plan de rehabilitación individualizado.',
     icon: 'activity',
+    media: {
+      type: 'video',
+      src: '/video/rehabilitacion-electro',
+      alt: 'Sesión de electroestimulación en un perro',
+      caption: 'Electroestimulación durante la rehabilitación',
+    },
   },
+]
+
+/** Radiografías de cirugías traumatológicas y ortopédicas (sección "Traumatología en imágenes"). */
+export const xrays = [
+  { src: '/img/real/rx-1', label: 'Osteosíntesis con placas' },
+  { src: '/img/real/rx-3', label: 'Fijador externo' },
+  { src: '/img/real/rx-6', label: 'Placa ortopédica' },
+  { src: '/img/real/rx-2', label: 'Osteosíntesis con placa' },
+  { src: '/img/real/rx-8', label: 'Fijador externo' },
+  { src: '/img/real/rx-4', label: 'Osteosíntesis con placa' },
+  { src: '/img/real/rx-7', label: 'Cirugía de pelvis' },
+  { src: '/img/real/rx-5', label: 'Placa y tornillos' },
 ]
 
 export type TeamMember = {
@@ -153,12 +192,11 @@ export type TeamMember = {
 
 export const team: TeamMember[] = [
   {
-    name: 'Diego Alejandro Ozan',
-    role: 'Cirugía veterinaria',
-    roleToConfirm: true,
+    name: 'Diego Alejandro Ozán',
+    role: 'Cirugía general y traumatología',
     license: 'M.P. 12912',
     photo: 'diego-ozan',
-    photoAlt: 'Diego Alejandro Ozan en el quirófano, con ropa quirúrgica, haciendo un gesto de pulgar arriba',
+    photoAlt: 'Diego Alejandro Ozán en el quirófano, con ropa quirúrgica, haciendo un gesto de pulgar arriba',
   },
   {
     name: 'Gabriela Idiarte Borda',
@@ -177,14 +215,14 @@ export const team: TeamMember[] = [
   },
 ]
 
-/** Fotos ilustrativas: reemplazar por fotos reales del lugar y sus pacientes. */
+/** Fotos reales enviadas por la veterinaria. `tall` ocupa dos filas en el mosaico. */
 export const gallery = [
-  { image: 'galeria-1', alt: 'Perro corriendo feliz en la orilla del mar' },
-  { image: 'galeria-3', alt: 'Gato levantando la pata sobre fondo verde agua' },
-  { image: 'galeria-2', alt: 'Cachorro de golden retriever caminando al atardecer' },
-  { image: 'galeria-4', alt: 'Perro de pelo blanco y marrón sonriendo' },
-  { image: 'galeria-6', alt: 'Golden retriever mirando a cámara con expresión tranquila' },
-  { image: 'galeria-5', alt: 'Gato atigrado de ojos verdes mirando hacia arriba' },
+  { src: '/img/real/galeria-equipo-quirofano', label: 'Equipo quirúrgico en acción', alt: 'Equipo quirúrgico durante una cirugía' },
+  { src: '/img/real/galeria-equino', label: 'Cirugía en equinos', alt: 'Cirugía en un equino anestesiado sobre la mesa de operaciones', tall: true },
+  { src: '/img/real/galeria-paciente-recuperado', label: 'En plena recuperación', alt: 'Perro comiendo al aire libre durante su recuperación' },
+  { src: '/img/real/galeria-rehabilitacion-circuito', label: 'Circuito de rehabilitación', alt: 'Perro haciendo un circuito de rehabilitación con conos y colchoneta', tall: true },
+  { src: '/img/real/galeria-cirugia', label: 'Precisión en el quirófano', alt: 'Cirujano trabajando sobre el campo quirúrgico' },
+  { src: '/img/real/galeria-equino-quirofano', label: 'Grandes animales', alt: 'Equipo quirúrgico preparando a un equino en el quirófano' },
 ]
 
 /** Reseñas de muestra: se reemplazan por las reseñas reales de la ficha de Google. */

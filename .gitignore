@@ -25,3 +25,6 @@ dist-ssr
 
 # Configuración local de Claude Code
 .claude/
+
+# Material original del cliente (las versiones optimizadas están en public/)
+contenido/

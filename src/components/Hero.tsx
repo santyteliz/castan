@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { generalMessage, site, team, whatsappUrl } from '../content/site'
 import { Icon, WhatsAppIcon } from './Icon'
-import { LogoIllustration, PawOutline, Photo, SplitWords, prefersReducedMotion } from './ui'
+import { LogoIllustration, PawOutline, SplitWords, prefersReducedMotion } from './ui'
 
 /** Parallax liviano: la foto y el sticker se desplazan a distinta velocidad al hacer scroll. */
 function useParallax() {
@@ -116,12 +116,13 @@ export function Hero() {
           <div className="hero-photo relative mx-auto max-w-[32rem] lg:mr-0">
             <div className="relative aspect-[4/4.5] overflow-hidden rounded-t-[999px] rounded-b-[2.25rem] bg-navy shadow-lift ring-8 ring-white/5">
               <div ref={photo} className="size-full will-change-transform">
-                <Photo
-                  name="hero"
-                  alt="Perro de pelaje rojizo descansando en su cama, en un ambiente luminoso con plantas"
-                  sizes="(min-width: 1024px) 32rem, 92vw"
-                  priority
-                  className="size-full object-cover object-[50%_70%]"
+                <img
+                  src="/img/real/hero-rehabilitacion.webp"
+                  alt="Sesión de rehabilitación: un perro trabaja el equilibrio sobre un disco, acompañado por la profesional"
+                  width={900}
+                  height={1601}
+                  fetchPriority="high"
+                  className="size-full object-cover object-[50%_22%]"
                 />
               </div>
               <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-deep/45 to-transparent" />
