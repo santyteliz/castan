@@ -44,13 +44,15 @@ export function Header() {
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    // Solo bloquea el scroll mientras el menú está abierto (no pisa el bloqueo de la animación de entrada)
     if (!open) return
+    document.body.style.overflow = 'hidden'
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false)
     const onResize = () => window.innerWidth >= 1024 && setOpen(false)
     window.addEventListener('keydown', onKey)
     window.addEventListener('resize', onResize)
     return () => {
+      document.body.style.overflow = ''
       window.removeEventListener('keydown', onKey)
       window.removeEventListener('resize', onResize)
     }

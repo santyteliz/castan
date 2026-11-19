@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { generalMessage, nav, site, whatsappUrl } from '../content/site'
 import { Icon, WhatsAppIcon } from './Icon'
-import { AutoVideo, Editable, Logo, useReveal } from './ui'
+import { AutoVideo, Logo, useReveal } from './ui'
 
 export function FinalCta() {
   const ref = useReveal<HTMLElement>()
@@ -88,12 +88,12 @@ export function Footer() {
               <li className="flex items-start gap-2.5">
                 <Icon name="pin" className="mt-0.5 size-4 shrink-0 text-navy" />
                 <span>
-                  <Editable>{site.address}</Editable>, {site.addressNote}
+                  {site.address}, {site.addressNote}
                 </span>
               </li>
               <li className="flex items-start gap-2.5">
-                <Icon name="chat" className="mt-0.5 size-4 shrink-0 text-navy" />
-                <Editable>{site.email}</Editable>
+                <Icon name="clock" className="mt-0.5 size-4 shrink-0 text-navy" />
+                <span>Lunes a sábado de 9:30 a 12:30. Tarde con turno previo.</span>
               </li>
             </ul>
           </div>

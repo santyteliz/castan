@@ -1,6 +1,6 @@
 import { generalMessage, mapsDirectionsUrl, mapsEmbedUrl, site, whatsappUrl } from '../content/site'
 import { Icon, WhatsAppIcon } from './Icon'
-import { DemoNote, Editable, SectionHeading, useReveal } from './ui'
+import { SectionHeading, useReveal } from './ui'
 
 export function Contact() {
   const ref = useReveal<HTMLElement>()
@@ -24,7 +24,7 @@ export function Contact() {
               <div>
                 <h3 className="font-sans text-[0.8rem] font-semibold tracking-wide text-ink-soft uppercase">Dirección</h3>
                 <p className="mt-1.5 text-[1.05rem] font-semibold text-ink">
-                  <Editable>{site.address}</Editable>
+                  {site.address}
                 </p>
                 <p className="mt-0.5 text-[0.95rem] text-ink-soft">{site.addressNote}</p>
               </div>
@@ -42,14 +42,15 @@ export function Contact() {
                   {site.hours.map((h) => (
                     <div key={h.days} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1 py-3">
                       <dt className="text-[0.97rem] text-ink">{h.days}</dt>
-                      <dd className="text-[0.9rem]">
-                        <Editable>{h.time}</Editable>
-                      </dd>
+                      <dd className="text-[0.92rem] font-semibold text-ink">{h.time}</dd>
                     </div>
                   ))}
                 </dl>
-                <p className="mt-3 text-[0.9rem] text-ink-soft">
-                  Guardias y urgencias: <Editable>{site.emergencies}</Editable>
+                <p className="mt-4 flex items-start gap-2 rounded-xl bg-peach-soft/70 px-3.5 py-2.5 text-[0.86rem] leading-snug text-orange-ink">
+                  <Icon name="info" className="mt-px size-4 shrink-0" />
+                  <span>
+                    {site.hoursNote} {site.emergencies}
+                  </span>
                 </p>
               </div>
             </div>
@@ -73,17 +74,13 @@ export function Contact() {
 
           <div className="reveal relative min-h-[22rem] overflow-hidden rounded-[1.75rem] bg-sand shadow-soft ring-1 ring-ink/5 lg:col-span-7">
             <iframe
-              title="Mapa de ubicación de Veterinaria Castán en Miramar"
+              title="Mapa: Veterinaria Castán, Calle 38 N.º 1125, Miramar"
               src={mapsEmbedUrl}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0 size-full border-0 grayscale-[35%] sepia-[12%]"
             />
           </div>
-        </div>
-
-        <div className="reveal mt-6">
-          <DemoNote>Dirección y horarios provisionales: se completan con los datos que confirme la veterinaria.</DemoNote>
         </div>
       </div>
     </section>

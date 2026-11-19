@@ -42,15 +42,26 @@
         "name": "Veterinaria Castán",
         "description": "Cirugía, diagnóstico por imágenes, cardiología y rehabilitación veterinaria en Miramar, Buenos Aires.",
         "telephone": "+54 9 2291 41-1543",
+        "openingHours": "Mo-Sa 09:30-12:30",
+        "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "reviewCount": "128" },
         "areaServed": "Miramar, Buenos Aires",
         "address": {
           "@type": "PostalAddress",
+          "streetAddress": "Calle 38 1125",
           "addressLocality": "Miramar",
+          "postalCode": "B7607",
           "addressRegion": "Buenos Aires",
           "addressCountry": "AR"
         }
       }
     </script>
+    <script>
+      // Animación de entrada: se activa antes del primer render para que el hero espere a la cortina
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('has-intro')
+      }
+    </script>
+    <link rel="preload" as="image" type="image/webp" href="/brand/logo-ilustracion-360.webp" />
   </head>
   <body>
     <div id="root"></div>

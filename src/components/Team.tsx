@@ -1,6 +1,6 @@
-import { DEMO_MODE, team, type TeamMember } from '../content/site'
+import { team, type TeamMember } from '../content/site'
 import { Icon } from './Icon'
-import { DemoNote, SectionHeading, useReveal, useTilt } from './ui'
+import { SectionHeading, useReveal, useTilt } from './ui'
 
 function MemberCard({ member, index }: { member: TeamMember; index: number }) {
   const tilt = useTilt<HTMLElement>(4)
@@ -27,7 +27,6 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
           <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
             <p className="text-[0.75rem] font-semibold tracking-[0.18em] text-peach uppercase">
               {member.role}
-              {member.roleToConfirm && DEMO_MODE && <span className="text-cream/50 normal-case"> · a confirmar</span>}
             </p>
             <h3 className="mt-2 text-[1.55rem] leading-tight">{member.name}</h3>
             <span
@@ -54,9 +53,6 @@ export function Team() {
             accent="cuidan de tu mascota"
             text="Profesionales matriculados que acompañan cada etapa, desde el diagnóstico hasta la recuperación."
           />
-          <div className="reveal lg:max-w-xs">
-            <DemoNote>Falta confirmar la especialidad de Gabriela.</DemoNote>
-          </div>
         </div>
 
         <ul className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

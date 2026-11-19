@@ -3,6 +3,7 @@ import { FinalCta, FloatingWhatsApp, Footer } from './components/Closing'
 import { Contact } from './components/Contact'
 import { Gallery } from './components/Gallery'
 import { Header } from './components/Header'
+import { Intro } from './components/Intro'
 import { Hero } from './components/Hero'
 import { Marquee } from './components/Marquee'
 import { Process } from './components/Process'
@@ -20,6 +21,7 @@ export default function App() {
       >
         Saltar al contenido
       </a>
+      <Intro />
       <Header />
       <main id="contenido">
         <Hero />
