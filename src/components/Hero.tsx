@@ -122,7 +122,8 @@ export function Hero() {
                   width={900}
                   height={1601}
                   fetchPriority="high"
-                  className="size-full object-cover object-[50%_22%]"
+                  decoding="async"
+                  className="hero-photo-img size-full object-cover object-[50%_22%]"
                 />
               </div>
               <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-navy-deep/45 to-transparent" />

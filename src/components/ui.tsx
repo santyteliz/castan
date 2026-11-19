@@ -185,15 +185,28 @@ export function AutoVideo({ src, className, label }: { src: string; className?: 
   useEffect(() => {
     const video = ref.current
     if (!video || prefersReducedMotion()) return
-    const io = new IntersectionObserver(
+    // El MP4 recién se descarga cuando el video se acerca a la pantalla (antes solo se ve el poster)
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        video.preload = 'auto'
+        near.disconnect()
+      },
+      { rootMargin: '600px 0px' },
+    )
+    const visible = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) video.play().catch(() => {})
         else video.pause()
       },
       { threshold: 0.2 },
     )
-    io.observe(video)
-    return () => io.disconnect()
+    near.observe(video)
+    visible.observe(video)
+    return () => {
+      near.disconnect()
+      visible.disconnect()
+    }
   }, [])
   return (
     <video
@@ -203,7 +216,7 @@ export function AutoVideo({ src, className, label }: { src: string; className?: 
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       aria-label={label}
     >
       <source src={`${src}.mp4`} type="video/mp4" />

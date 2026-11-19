@@ -177,15 +177,27 @@
   }
 }
 
+/* Sin opacity: la foto se pinta desde el primer cuadro (LCP rápido) y entra con movimiento */
 @keyframes hero-photo {
   from {
-    opacity: 0;
-    transform: scale(0.97) translateY(10px);
+    transform: scale(0.96) translateY(14px);
   }
   to {
-    opacity: 1;
     transform: none;
   }
+}
+
+@keyframes hero-photo-img {
+  from {
+    transform: scale(1.18);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.hero-photo-img {
+  animation: hero-photo-img 1.6s var(--ease-out-soft) 0.15s both;
 }
 
 @keyframes sticker-in {
@@ -420,10 +432,11 @@
   clip-path: inset(0 0 0 0 round 1.5rem);
 }
 
-/* ---------- Animación de entrada con el logo ---------- */
+/* ---------- Animación de entrada con el logo ----------
+   Corta (≈1,7 s + cortina) y solo la primera vez por sesión. Todo con transform/opacity. */
 .intro {
   clip-path: inset(0 0 0 0);
-  transition: clip-path 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+  transition: clip-path 0.8s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .intro.is-leaving {
@@ -432,8 +445,8 @@
 
 .intro-content {
   transition:
-    transform 0.95s cubic-bezier(0.76, 0, 0.24, 1),
-    opacity 0.6s ease;
+    transform 0.8s cubic-bezier(0.76, 0, 0.24, 1),
+    opacity 0.5s ease;
 }
 
 .intro.is-leaving .intro-content {
@@ -457,55 +470,50 @@
 }
 
 .intro-logo {
-  animation: intro-logo 1s var(--ease-out-soft) 0.1s both;
+  animation: intro-logo 0.85s var(--ease-out-soft) 0.05s both;
 }
 
 @keyframes intro-letter {
   from {
     opacity: 0;
-    transform: translateY(0.6em) rotate(8deg);
-    filter: blur(6px);
+    transform: translateY(0.6em) rotate(8deg) scale(0.9);
   }
   to {
     opacity: 1;
     transform: none;
-    filter: none;
   }
 }
 
 .intro-letter {
-  animation: intro-letter 0.7s var(--ease-out-soft) both;
-  animation-delay: calc(var(--i) * 65ms + 0.55s);
+  animation: intro-letter 0.6s var(--ease-out-soft) both;
+  animation-delay: calc(var(--i) * 55ms + 0.38s);
 }
 
 @keyframes intro-sub {
   from {
     opacity: 0;
-    letter-spacing: 0.05em;
+    transform: scaleX(0.7);
   }
   to {
     opacity: 1;
-    letter-spacing: 0.4em;
+    transform: none;
   }
 }
 
 .intro-sub {
   letter-spacing: 0.4em;
-  animation: intro-sub 1s var(--ease-out-soft) 1.05s both;
+  animation: intro-sub 0.8s var(--ease-out-soft) 0.72s both;
 }
 
 @keyframes intro-line {
   from {
-    width: 0;
-  }
-  to {
-    width: 4rem;
+    transform: scaleX(0);
   }
 }
 
 .intro-line {
   width: 4rem;
-  animation: intro-line 0.8s var(--ease-out-soft) 1.3s both;
+  animation: intro-line 0.7s var(--ease-out-soft) 0.9s both;
 }
 
 @keyframes intro-paw {
@@ -516,7 +524,7 @@
 }
 
 .intro-paw {
-  animation: intro-paw 1.2s var(--ease-out-soft) both;
+  animation: intro-paw 1s var(--ease-out-soft) both;
 }
 
 @keyframes intro-glow {
@@ -527,24 +535,13 @@
 }
 
 .intro-glow {
-  animation: intro-glow 1.6s var(--ease-out-soft) both;
+  animation: intro-glow 1.4s var(--ease-out-soft) both;
 }
 
-/* Mientras corre la entrada, el hero espera a que suba la cortina */
-.has-intro .hero-in {
-  animation-delay: calc(var(--d, 0ms) + 2.25s);
-}
-
-.has-intro .hero-photo {
-  animation-delay: 2.4s;
-}
-
-.has-intro .hero-sticker {
-  animation-delay: 2.8s;
-}
-
-.has-intro .hero-title .split-word > span {
-  animation-delay: calc(var(--i, 0) * 70ms + 2.35s);
+/* Mientras la entrada está en pantalla, las animaciones del hero esperan en pausa
+   y arrancan justo cuando sube la cortina (también si la persona la saltea). */
+.intro-running :is(.hero-in, .hero-photo, .hero-photo-img, .hero-sticker, .hero-title .split-word > span) {
+  animation-play-state: paused;
 }
 
 /* Opiniones: estrellas y barras que se completan al aparecer */

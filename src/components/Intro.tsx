@@ -1,41 +1,46 @@
 import { useEffect, useState } from 'react'
 import { LogoIllustration, PawOutline } from './ui'
 
-/** Duración total de la animación de entrada (ms). El hero arranca cuando la cortina empieza a subir. */
-const EXIT_AT = 2300
-const DONE_AT = 3300
+/** Momento en que sube la cortina (ms). El hero arranca ahí mismo. */
+const EXIT_AT = 1700
+/** Duración de la cortina (coincide con la transición de .intro en index.css). */
+const CURTAIN_MS = 800
 
 /**
- * Animación de entrada con el logo de Castán. Se muestra al abrir la página
- * (salvo con "reducir movimiento") y se puede saltear con un clic o una tecla.
+ * Animación de entrada con el logo de Castán. Se muestra solo la primera vez por sesión
+ * (el script de index.html decide) y nunca con "reducir movimiento".
+ * Se saltea con clic, tecla, rueda del mouse o al tocar la pantalla.
  */
 export function Intro() {
   const [phase, setPhase] = useState<'in' | 'out' | 'done'>(() =>
     document.documentElement.classList.contains('has-intro') ? 'in' : 'done',
   )
 
+  // Fase 'in': bloquea el scroll, programa la salida y escucha cualquier intento de saltearla
   useEffect(() => {
-    if (phase === 'done') return
+    if (phase !== 'in') return
     document.body.style.overflow = 'hidden'
-    const out = window.setTimeout(() => setPhase((p) => (p === 'in' ? 'out' : p)), EXIT_AT)
-    const done = window.setTimeout(() => setPhase('done'), DONE_AT)
-    const skip = () => setPhase((p) => (p === 'in' ? 'out' : p))
-    window.addEventListener('keydown', skip)
+    const leave = () => setPhase('out')
+    const timer = window.setTimeout(leave, EXIT_AT)
+    const events = ['keydown', 'wheel', 'touchstart'] as const
+    events.forEach((ev) => window.addEventListener(ev, leave, { passive: true, once: true }))
     return () => {
-      window.clearTimeout(out)
-      window.clearTimeout(done)
-      window.removeEventListener('keydown', skip)
+      window.clearTimeout(timer)
+      events.forEach((ev) => window.removeEventListener(ev, leave))
     }
-    // Solo al montar: las fases siguientes las manejan los timers
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [phase])
 
+  // Fase 'out': libera el hero y el scroll en cuanto empieza a subir la cortina
   useEffect(() => {
-    if (phase === 'out') {
-      const t = window.setTimeout(() => setPhase('done'), 1000)
-      return () => window.clearTimeout(t)
-    }
-    if (phase === 'done') document.body.style.overflow = ''
+    if (phase !== 'out') return
+    const root = document.documentElement
+    root.classList.remove('intro-running')
+    document.body.style.overflow = ''
+    const timer = window.setTimeout(() => {
+      root.classList.remove('has-intro')
+      setPhase('done')
+    }, CURTAIN_MS)
+    return () => window.clearTimeout(timer)
   }, [phase])
 
   if (phase === 'done') return null
@@ -44,14 +49,14 @@ export function Intro() {
   return (
     <div
       aria-hidden="true"
-      onClick={() => setPhase((p) => (p === 'in' ? 'out' : p))}
+      onClick={() => setPhase('out')}
       className={`intro fixed inset-0 z-[100] flex cursor-pointer items-center justify-center overflow-hidden bg-gradient-to-br from-navy-ink via-navy-deep to-navy ${
-        phase === 'out' ? 'is-leaving' : ''
+        phase === 'out' ? 'is-leaving pointer-events-none' : ''
       }`}
     >
       <PawOutline className="intro-paw pointer-events-none absolute -top-10 -left-16 w-64 -rotate-12 text-navy/70" />
       <PawOutline className="intro-paw pointer-events-none absolute -right-20 -bottom-16 w-80 rotate-12 text-navy/60 [animation-delay:150ms]" />
-      <div aria-hidden="true" className="intro-glow pointer-events-none absolute size-[34rem] rounded-full bg-orange/15 blur-[110px]" />
+      <div aria-hidden="true" className="intro-glow pointer-events-none absolute size-[34rem] rounded-full bg-[radial-gradient(circle,rgb(232_119_46/0.24),transparent_65%)]" />
 
       <div className="intro-content relative flex flex-col items-center">
         <div className="intro-logo w-[15rem] sm:w-[20rem]">

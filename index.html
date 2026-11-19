@@ -22,6 +22,15 @@
     <meta property="og:image" content="/img/real/cirugia-equipo.webp" />
     <meta name="twitter:card" content="summary_large_image" />
 
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/brand/logo-ilustracion-360.webp"
+      imagesrcset="/brand/logo-ilustracion-360.webp 360w, /brand/logo-ilustracion-720.webp 720w"
+      imagesizes="20rem"
+      fetchpriority="high"
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -56,12 +65,25 @@
       }
     </script>
     <script>
-      // Animación de entrada: se activa antes del primer render para que el hero espere a la cortina
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.classList.add('has-intro')
-      }
+      // Animación de entrada: solo la primera vez por sesión y nunca con "reducir movimiento".
+      // Se decide antes del primer render para que el hero espere a la cortina.
+      ;(function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+        try {
+          if (sessionStorage.getItem('castan-intro')) return
+          sessionStorage.setItem('castan-intro', '1')
+        } catch (e) {}
+        document.documentElement.classList.add('has-intro', 'intro-running')
+      })()
     </script>
-    <link rel="preload" as="image" type="image/webp" href="/brand/logo-ilustracion-360.webp" />
+    <style>
+      /* Mientras carga el JS, la pantalla ya muestra el fondo de la entrada (sin destello claro) */
+      .has-intro #root:empty {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(135deg, #161e33, #1f2a44 55%, #2f4575);
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
